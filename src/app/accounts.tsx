@@ -2,6 +2,8 @@ import {Button, StyleSheet, Text, TextInput, View} from "react-native";
 import AccountList from "../components/AccountList";
 import Entypo from '@expo/vector-icons/Entypo';
 import {useState} from "react";
+import database, {accountsCollection} from "../db";
+import Account from "../model/Account";
 
 export default function AccountsScreen() {
 
@@ -9,8 +11,33 @@ export default function AccountsScreen() {
   const [cap, setCap] = useState("");
   const [tap, setTap] = useState("");
 
-  const createAccount = () => {
-    console.warn('create account',name);
+  const createAccount = async () => {
+
+    await database.write(async () => {
+      await accountsCollection.create((account: Account) => {
+        account.name = name;
+        account.cap = Number.parseInt(cap);
+        account.tap = Number.parseInt(tap);
+      });
+
+    });
+    setName("");
+    setCap("");
+    setTap("");
+  }
+
+  const onRead = async () => {
+    //const accountsCollection = database.get('accounts');
+    //const accounts = await accountsCollection.query().fetch();
+    //console.log(accounts);
+    await database.write(async () => {
+      const accounts = await accountsCollection.query().fetch();
+      const account = accounts[0];
+      account.update((updatedAccount: Account) => {
+        updatedAccount.name = '<333>';
+      });
+    });
+
   };
 
   return (
@@ -33,6 +60,8 @@ export default function AccountsScreen() {
       </View>
 
       <Button title="Add account" onPress={ createAccount }/>
+      <Button title="TEST" onPress={ onRead }/>
+
 
     </View>
   );
