@@ -5,6 +5,7 @@ import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite'
 import schema from './schema'
 import migrations from './migrations'
 import Account from "../model/Account";
+import Allocation from "../model/Allocation";
 
 // First, create the adapter to the underlying database:
 const adapter = new SQLiteAdapter({
@@ -27,9 +28,11 @@ const database = new Database({
   adapter,
   modelClasses: [
     Account,
+    Allocation
   ],
 });
 
 export default database;
 
 export const accountsCollection = database.get<Account>('accounts');
+export const allocationsCollection = database.get<Allocation>('allocations');

@@ -1,13 +1,65 @@
-import {Text,View} from "react-native";
+import {Text, StyleSheet, View, TextInput, Button} from "react-native";
 import {Stack} from "expo-router";
+import {useState} from "react";
+import database, {allocationsCollection} from "../../db";
 
 export default function NewAllocationScreen() {
 
+  const [income, setIncome] = useState('');
+
+  const save = async () => {
+
+    await database.write(async () => {
+      allocationsCollection.create((newAllocation) => {
+        newAllocation.income = Number.parseFloat(income);
+      });
+    });
+
+
+  };
+
   return (
-      <View>
+      <View style={styles.container}>
         <Stack.Screen options={{ title: 'New Allocations' }}/>
-        <Text>New Allocations</Text>
+
+        <View style={styles.inputRow}>
+          <Text style={styles.label}>Income</Text>
+          <TextInput
+              value={income}
+              onChangeText={setIncome}
+              placeholder="$123"
+              style={styles.input}
+          />
+
+        </View>
+
+        <Button title="Save" onPress={save} />
+
+
       </View>
   );
 
 }
+
+const styles = StyleSheet.create({
+
+  container: {
+    padding: 10,
+    gap: 10,
+  },
+  label: {
+    fontWeight: "bold",
+  },
+  inputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap:10,
+  },
+  input: {
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 5,
+    flex: 1,
+  }
+
+});
