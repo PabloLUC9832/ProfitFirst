@@ -8,7 +8,7 @@ type AccountListItem = {
   account: Account;
 };
 
-export default function AccountListItem( {account} : AccountListItem) {
+function AccountListItem( {account} : AccountListItem) {
 
   const onDelete = async () => {
     await database.write(async () => {

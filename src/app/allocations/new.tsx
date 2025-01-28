@@ -1,5 +1,5 @@
 import {Text, StyleSheet, View, TextInput, Button} from "react-native";
-import {Stack} from "expo-router";
+import {router, Stack} from "expo-router";
 import {useState} from "react";
 import database, {allocationsCollection} from "../../db";
 
@@ -15,6 +15,8 @@ export default function NewAllocationScreen() {
       });
     });
 
+    setIncome('');
+    router.back();
 
   };
 
