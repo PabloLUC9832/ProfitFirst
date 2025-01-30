@@ -1,11 +1,13 @@
 import {Text, StyleSheet, View, TextInput, Button} from "react-native";
 import {router, Stack} from "expo-router";
 import {useState} from "react";
-import database, {allocationsCollection} from "../../db";
+import database, {accountsCollection, allocationsCollection} from "../../db";
+import {withObservables} from "@nozbe/watermelondb/react";
+import Account from "../../model/Account";
 
-export default function NewAllocationScreen() {
+function NewAllocationScreen({ accounts } : { accounts: Account[] }) {
 
-  const [income, setIncome] = useState('');
+  const [income, setIncome] = useState('0');
 
   const save = async () => {
 
@@ -35,6 +37,16 @@ export default function NewAllocationScreen() {
 
         </View>
 
+
+        {accounts.map(account => (
+          <View key={account.id} style={styles.inputRow}>
+            <Text style={{flex:1}}>{account.name} : {account.cap}%</Text>
+            <Text>
+              ${ (Number.parseFloat(income) * account.cap)/100 }
+            </Text>
+          </View>
+        ))}
+
         <Button title="Save" onPress={save} />
 
 
@@ -42,6 +54,12 @@ export default function NewAllocationScreen() {
   );
 
 }
+
+const enhance = withObservables([],() => ({
+  accounts: accountsCollection.query(),
+}));
+
+export default enhance(NewAllocationScreen);
 
 const styles = StyleSheet.create({
 
