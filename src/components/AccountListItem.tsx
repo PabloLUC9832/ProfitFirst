@@ -26,7 +26,7 @@ function AccountListItem( {account} : AccountListItem) {
     </View>
   );
 };
-//2:52:50
+
 const enhance = withObservables(['account'],({account}) => ({
   account: account,
 }));

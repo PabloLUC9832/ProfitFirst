@@ -1,9 +1,11 @@
 import {Text, StyleSheet, View, TextInput, Button} from "react-native";
 import {router, Stack} from "expo-router";
 import {useState} from "react";
-import database, {accountsCollection, allocationsCollection} from "../../db";
+import database, {accountAllocationCollection, accountsCollection, allocationsCollection} from "../../db";
 import {withObservables} from "@nozbe/watermelondb/react";
 import Account from "../../model/Account";
+import Allocation from "../../model/Allocation";
+import AccountAllocation from "../../model/AccountAllocation";
 
 function NewAllocationScreen({ accounts } : { accounts: Account[] }) {
 
@@ -12,11 +14,25 @@ function NewAllocationScreen({ accounts } : { accounts: Account[] }) {
   const save = async () => {
 
     await database.write(async () => {
-      allocationsCollection.create((newAllocation) => {
+      const allocation = await allocationsCollection.create((newAllocation) => {
         newAllocation.income = Number.parseFloat(income);
       });
+
+      await Promise.all(
+        accounts.map((account: Account) => {
+          accountAllocationCollection.create((item: AccountAllocation) => {
+            item.account.set(account);
+            item.allocation.set(allocation);
+            item.cap = account.cap;
+            item.amount = (allocation.income * account.cap) / 100;
+          });
+        })
+      );
+
+
     });
 
+    //await Allocation.create(Number.parseFloat(income));
     setIncome('');
     router.back();
 
@@ -42,7 +58,7 @@ function NewAllocationScreen({ accounts } : { accounts: Account[] }) {
           <View key={account.id} style={styles.inputRow}>
             <Text style={{flex:1}}>{account.name} : {account.cap}%</Text>
             <Text>
-              ${ (Number.parseFloat(income) * account.cap)/100 }
+              ${ (Number.parseFloat(income) * (account.cap ?? 0))/100 }
             </Text>
           </View>
         ))}
