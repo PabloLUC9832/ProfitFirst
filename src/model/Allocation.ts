@@ -11,6 +11,7 @@ export default class Allocation extends Model {
 
   @field('income') income?: number;
   @readonly @date('created_at') createdAt?: Date;
+  @readonly @date('updated_at') updatedAt?: Date;
 
 /*  @writer static async create(income: number) {
     return await allocationsCollection.create((newAllocation) => {

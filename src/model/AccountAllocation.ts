@@ -10,6 +10,7 @@ export default class AccountAllocation extends Model{
   };
 
   @readonly @date('created_at') createdAt?: Date;
+  @readonly @date('updated_at') updatedAt?: Date;
   @field('cap') cap?: number;
   @field('amount') amount?: number;
   @nochange @field('user_id') userId?: string;
