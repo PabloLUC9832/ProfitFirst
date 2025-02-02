@@ -22,7 +22,7 @@ const AllocationListItem = (
 
         <View style={{ gap: 5, paddingVertical: 5 }}>
           { accountAllocations.map((item: AccountAllocation) => (
-            <AccountAllocationItem accountAllocation={item} />
+            <AccountAllocationItem accountAllocation={item}/>
           ))}
         </View>
 

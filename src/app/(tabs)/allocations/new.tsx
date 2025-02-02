@@ -1,11 +1,11 @@
 import {Text, StyleSheet, View, TextInput, Button} from "react-native";
 import {router, Stack} from "expo-router";
 import {useState} from "react";
-import database, {accountAllocationCollection, accountsCollection, allocationsCollection} from "../../db";
+import database, {accountAllocationCollection, accountsCollection, allocationsCollection} from "../../../db";
 import {withObservables} from "@nozbe/watermelondb/react";
-import Account from "../../model/Account";
-import Allocation from "../../model/Allocation";
-import AccountAllocation from "../../model/AccountAllocation";
+import Account from "../../../model/Account";
+import Allocation from "../../../model/Allocation";
+import AccountAllocation from "../../../model/AccountAllocation";
 
 function NewAllocationScreen({ accounts } : { accounts: Account[] }) {
 

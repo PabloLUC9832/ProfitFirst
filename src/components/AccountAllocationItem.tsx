@@ -2,7 +2,6 @@ import AccountAllocation from "../model/AccountAllocation";
 import {Text,View} from "react-native";
 import {withObservables} from "@nozbe/watermelondb/react";
 import Account from "../model/Account";
-import AccountListItem from "./AccountListItem";
 
 type AccountAllocationItem = {
   accountAllocation: AccountAllocation;

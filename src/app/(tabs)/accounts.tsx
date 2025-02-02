@@ -1,9 +1,9 @@
 import {Button, StyleSheet, Text, TextInput, View} from "react-native";
-import AccountList from "../components/AccountList";
+import AccountList from "../../components/AccountList";
 import Entypo from '@expo/vector-icons/Entypo';
 import {useState} from "react";
-import database, {accountsCollection} from "../db";
-import Account from "../model/Account";
+import database, {accountsCollection} from "../../db";
+import Account from "../../model/Account";
 
 export default function AccountsScreen() {
 
