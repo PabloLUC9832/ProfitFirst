@@ -1,5 +1,5 @@
 import { Model } from '@nozbe/watermelondb'
-import {children, date, field, readonly, text, writer} from "@nozbe/watermelondb/decorators";
+import {children, date, field, nochange, readonly, text, writer} from "@nozbe/watermelondb/decorators";
 import {allocationsCollection} from "../db";
 
 export default class Allocation extends Model {
@@ -17,8 +17,9 @@ export default class Allocation extends Model {
       newAllocation.income = income;
     });
   }*/
-
+  @nochange @field('user_id') userId?: string;
   @children('account_allocations') accountAllocations; //?: Allocation[];
+
 
 
 
